@@ -15,7 +15,7 @@ export default {
         }, {
           dest: 'rollupLib/index.js',
           format: 'es',
-        }
+        },
     ],
     plugins: [
       babel({
