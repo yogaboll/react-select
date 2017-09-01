@@ -15,6 +15,8 @@ import BooleanSelect from './components/BooleanSelect';
 import Virtualized from './components/Virtualized';
 import States from './components/States';
 
+console.log('select component should be loading', Select);
+
 ReactDOM.render(
 	<div>
 		<States label="States" searchable />
