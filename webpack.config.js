@@ -4,25 +4,18 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-  context: path.resolve(__dirname, 'examples/src'),
+  context: path.resolve(__dirname, 'examples/src'), // We don't really need context here.
   entry: {
-    app: path.resolve(__dirname, 'examples/src/app.js'),
+    app: './app.js',
   },
   output: {
     path: path.resolve(__dirname, 'examples/dist'),
     filename: '[name].js',
-    sourceMapFilename: '[file].map',
+    publicPath: '/',
   },
   devServer: {
-    contentBase: path.resolve(__dirname, 'examples/dist'),
-    compress:false,
-    port:4000,
-    hot:true,
-  },
-  resolve: {
-    alias: {
-      'react-select': path.resolve(__dirname, 'src/index.js'),
-    }
+    contentBase: path.resolve(__dirname, 'examples/src'),
+    port: 8080,
   },
   module: {
     rules: [
@@ -31,17 +24,15 @@ module.exports = {
         exclude: [/node_modules/],
         use: [{
           loader: 'babel-loader',
-          options: {
-            presets: ['es2015', 'stage-0', 'react'],
-          },
+          options: { presets: ['es2015', 'stage-0', 'react'] },
         }],
       },
       {
         test: /\.less$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: ['css-loader','less-loader'],
-        }),
+          use: ['css-loader', 'less-loader'],
+        })
       },
       {
         test: /\.html$/,
@@ -53,17 +44,22 @@ module.exports = {
       },
     ],
   },
+  resolve: {
+    alias: {
+      'react-select': path.resolve(__dirname, 'src/index'),
+    }
+  },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({
       name: 'common',
       filename: 'common.js',
-      minChunks: 2,
+      minChunk: 2,
     }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      inject:false,
+      inject: false,
       template: path.resolve(__dirname, 'examples/src/index.html')
     }),
     new ExtractTextPlugin('example.css'),
-  ],
+  ]
 };
