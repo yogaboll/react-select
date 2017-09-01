@@ -1,44 +1,48 @@
 
 import babel from 'rollup-plugin-babel';
-import cjs from 'rollup-plugin-commonjs';
-import resolve from 'rollup-plugin-node-resolve'
+import resolve from 'rollup-plugin-node-resolve';
 import uglify from 'rollup-plugin-uglify';
 import { minify } from 'uglify-es';
 
+const standalone = process.env.STANDALONE;
+const uglifyBuild = process.env.UGLIFY;
+
+console.log('STANDALONE', standalone);
+console.log('UGLIFY', uglifyBuild);
 export default {
-    input: 'src/index.js',
-    targets: [
-        {
-          name: 'react-select',
-          dest: 'rollupDist/react-select.js',
-          format: 'umd',
-        }, {
-          dest: 'rollupLib/index.js',
-          format: 'es',
-        },
+    input: 'src/index.umd.js',
+    output: {
+      name: 'Select',
+      file: standalone ? 'examples/dist/standalone.js': getDist(uglifyBuild),
+      format: 'umd',
+    },
+    globals: {
+      react: 'React',
+      'prop-types': 'PropTypes',
+      'react-dom': 'ReactDOM',
+      'react-input-autosize': 'AutosizeInput',
+      'classnames': 'classNames',
+    },
+    external: [
+      'classnames',
+      'prop-types',
+      'react-input-autosize',
+      'react',
+      'react-dom',
     ],
     plugins: [
       babel({
         babelrc: false,
         exclude: 'node_modules/**',
-        presets: ['es2015-rollup', 'stage-0', 'react'],
-        plugins: ['external-helpers']
-      }),
-      cjs({
-        include: [
-          'node_modules/classnames/**',
-          'node_modules/react-input-autosize/**',
-          'node_modules/prop-types/**',
-          'node_modules/create-react-class/**',
-          'node_modules/fbjs/**',
-          'node_modules/object-assign/**',
-          'node_modules/react/**',
-          'node_modules/react-dom/**',
-        ],
-        namedExports: {
-          'node_modules/react/react.js': ['Children', 'Component'],
-        }
+        presets: [['es2015', { 'modules': false }], 'stage-0', 'react'],
+        plugins: ['external-helpers', 'transform-class-properties', 'transform-object-rest-spread']
       }),
       resolve(),
+      uglifyBuild && uglify({}, minify) ,
     ]
 };
+
+
+function getDist (uglify) {
+  return uglify ? 'dist/react-select.min.js' : 'dist/react-select.js';
+}
