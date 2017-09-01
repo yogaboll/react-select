@@ -3,17 +3,13 @@ import babel from 'rollup-plugin-babel';
 import resolve from 'rollup-plugin-node-resolve';
 import uglify from 'rollup-plugin-uglify';
 import { minify } from 'uglify-es';
+const min = process.env.MINIFY;
 
-const standalone = process.env.STANDALONE;
-const uglifyBuild = process.env.UGLIFY;
-
-console.log('STANDALONE', standalone);
-console.log('UGLIFY', uglifyBuild);
 export default {
     input: 'src/index.umd.js',
     output: {
       name: 'Select',
-      file: standalone ? 'examples/dist/standalone.js': getDist(uglifyBuild),
+      file: getDist(min),
       format: 'umd',
     },
     globals: {
@@ -38,11 +34,11 @@ export default {
         plugins: ['external-helpers', 'transform-class-properties', 'transform-object-rest-spread']
       }),
       resolve(),
-      uglifyBuild && uglify({}, minify) ,
+      min ? uglify({}, minify) : {},
     ]
 };
 
 
-function getDist (uglify) {
-  return uglify ? 'dist/react-select.min.js' : 'dist/react-select.js';
+function getDist (min) {
+  return min ? 'dist/react-select.min.js' : 'dist/react-select.js';
 }

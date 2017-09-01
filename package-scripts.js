@@ -11,17 +11,17 @@ module.exports = {
         rimraf('dist'),
         rimraf('lib'),
         concurrent.nps('build.css', 'build.min'),
-        concurrent.nps('build.umd', 'build.umdMin', 'build.es')
+        concurrent.nps('build.umd', 'build.umdMin', 'build.es', 'build.standalone')
       ),
-      umdMin: 'rollup --config --environment UGLIFY',
       umd: 'rollup --config',
+      umdMin: 'rollup --config --environment MINIFY',
       es: 'babel src -d lib',
       css: 'lessc less/default.less dist/react-select.css',
       min: 'lessc --clean-css less/default.less dist/react-select.min.css',
+      dev: 'webpack-dev-server --progress',
       standalone: series(
         'cp examples/src/standalone.html examples/dist/standalone.html',
-        'lessc examples/src/example.less examples/dist/example.less',
-        'rollup --config --environment STANDALONE'
+        'lessc examples/src/example.less examples/dist/example.less'
       )
     },
   },

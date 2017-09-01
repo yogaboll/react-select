@@ -80,20 +80,21 @@
     "react-input-autosize": "global:AutosizeInput"
   },
   "scripts": {
-    "build": "gulp clean && NODE_ENV=production gulp build",
+    "build": "nps build",
+    "build:gulp": "gulp clean && NODE_ENV=production gulp build",
     "bump": "gulp bump",
     "bump:major": "gulp bump:major",
     "bump:minor": "gulp bump:minor",
     "cover": "istanbul cover _mocha -- -u exports --compilers js:babel/register -R spec",
     "coveralls": "NODE_ENV=test istanbul cover _mocha --report lcovonly -- -u exports --compilers js:babel/register -R spec && cat coverage/lcov.info | coveralls",
+    "dev": "nps build:dev",
     "examples": "gulp dev:server",
     "lint": "eslint .",
     "publish:examples": "NODE_ENV=production gulp publish:examples",
     "release": "NODE_ENV=production gulp release",
     "start": "gulp dev",
     "test": "npm run lint && mocha --compilers js:babel/register",
-    "watch": "gulp watch:lib",
-    "build:new": "nps build"
+    "watch": "gulp watch:lib"
   },
   "keywords": [
     "combobox",
