@@ -3,7 +3,6 @@
   Licensed under the MIT License (MIT), see
   http://jedwatson.github.io/react-select
 */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';

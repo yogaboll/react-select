@@ -3,6 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Select from 'react-select';
+import './example.less'
 
 import Creatable from './components/Creatable';
 import Contributors from './components/Contributors';
@@ -14,8 +15,6 @@ import NumericSelect from './components/NumericSelect';
 import BooleanSelect from './components/BooleanSelect';
 import Virtualized from './components/Virtualized';
 import States from './components/States';
-
-console.log('select component should be loading', Select);
 
 ReactDOM.render(
 	<div>
