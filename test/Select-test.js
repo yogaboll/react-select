@@ -22,7 +22,7 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var TestUtils = require('react-addons-test-utils');
 
-var Select = require('../src/Select');
+var Select = require('../src').default;
 var Value = require('../src/Value');
 
 // The displayed text of the currently selected item, when items collapsed
@@ -3224,7 +3224,7 @@ describe('Select', () => {
 
 				optionRenderer = sinon.spy(optionRenderer);
 
-				instance = createControl({
+				instance = test/Select-test({
 					options: ops,
 					optionRenderer: optionRenderer
 				});
