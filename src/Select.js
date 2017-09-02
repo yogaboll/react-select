@@ -385,13 +385,15 @@ class Select extends React.Component {
 				}
 			return;
 			case 9: // tab
-				if (event.shiftKey || !this.state.isOpen || !this.props.tabSelectsValue) {
+				if (event.shiftKey || !this.state.inputValue || !this.state.isOpen || !this.props.tabSelectsValue) {
 					return;
 				}
+				event.preventDefault();
 				this.selectFocusedOption();
 			return;
 			case 13: // enter
-				if (!this.state.isOpen) return;
+				if (!this.state.isOpen || !this.state.inputValue) return;
+				event.preventDefault();
 				event.stopPropagation();
 				this.selectFocusedOption();
 			break;
